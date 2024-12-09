@@ -1,0 +1,52 @@
+# User-specific files
+*.xcuserstate
+*.xcscmblueprint
+*.xcworkspace
+
+# Build artifacts
+DerivedData/
+*.app
+*.ipa
+*.dSYM
+build/
+*.xcarchive
+
+# Temporary files
+*.moved-aside
+*.swp
+*.lock
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Logs
+*.xccheckout
+*.xcdebugger/
+
+# macOS
+.DS_Store
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Checkouts
+Carthage/Build
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Xcode's index files
+*.xcindex*
+.xcindex/
+
+# Xcode's shared data
+*.xccrashpoint
