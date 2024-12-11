@@ -33,8 +33,8 @@ struct DashboardView: View {
                 VStack (spacing: 20){
                     
                     Picker("Selected Stat", selection: $selectedStat) {
-                        ForEach (HealthMetricContext.allCases) { metric in
-                            Text(metric.title)
+                        ForEach (HealthMetricContext.allCases) {
+                            Text($0.title)
                         }
                     }.pickerStyle(.segmented)
                     
@@ -70,8 +70,6 @@ struct DashboardView: View {
                                     Text("Last 28 days")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
-                                                         
-
                                 }
                                 .padding(.bottom,12)
                             
@@ -84,8 +82,6 @@ struct DashboardView: View {
                     }
                 }
                 .padding()
-                
-                
             }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in
