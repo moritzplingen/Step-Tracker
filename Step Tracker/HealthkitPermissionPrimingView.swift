@@ -8,8 +8,29 @@
 import SwiftUI
 
 struct HealthkitPermissionPrimingView: View {
+    
+    private var description: String = """
+This app displays your step and weight data in interactive charts. 
+
+You can also add new step or weight data to Apple Health from this app. Your data is private and secured.
+"""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Image(.healthKit)
+                .resizable()
+                .frame(width: 100, height: 100)
+                .shadow(radius: 10)
+                .padding()
+            Text("Apple Health Integration")
+                .font(.title2).bold().padding()
+            Text(description)
+                .foregroundStyle(.secondary)
+            Spacer()
+            Button("Connect Apple Health"){
+                // HealthKit integration code to be done
+            }
+        }.padding(.horizontal,30)
     }
 }
 
