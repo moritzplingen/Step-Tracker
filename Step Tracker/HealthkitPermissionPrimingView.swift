@@ -7,14 +7,19 @@
 
 import SwiftUI
 import Charts
+import HealthKitUI
 
 struct HealthkitPermissionPrimingView: View {
     
+    @Environment(HealthKitManager.self) private var hkManager
+    @Environment(\.dismiss) private var dismiss
+    @State private var showHealthKitPermissionAlert: Bool = false
+    
     private var description: String = """
-This app displays your step and weight data in interactive charts. 
+    This app displays your step and weight data in interactive charts. 
 
-You can also add new step or weight data to Apple Health from this app. Your data is private and secured.
-"""
+    You can also add new step or weight data to Apple Health from this app. Your data is private and secured.
+    """
     
     var body: some View {
         VStack {
@@ -29,7 +34,7 @@ You can also add new step or weight data to Apple Health from this app. Your dat
                 .foregroundStyle(.secondary)
             Spacer()
             Button(action: {
-                // To be implemented!
+                showHealthKitPermissionAlert = true
             }, label: {
                 Text("Sync Data to Apple Health")
                     .padding(.horizontal,10)
@@ -37,10 +42,26 @@ You can also add new step or weight data to Apple Health from this app. Your dat
             })
             .buttonStyle(.borderedProminent).buttonBorderShape(.capsule).tint(.pink)
             .padding(.bottom)
-        }.padding(.horizontal,30)
+        }
+        .padding(.horizontal,30)
+        .healthDataAccessRequest(store: hkManager.store,
+                                 shareTypes: hkManager.types,
+                                 readTypes: hkManager.types,
+                                 trigger: showHealthKitPermissionAlert) { result in
+            switch result {
+            case .success:
+                dismiss()
+            case .failure:
+                // Handle failure later
+                dismiss()
+            }
+            
+            }
+        }
     }
-}
+
 
 #Preview {
     HealthkitPermissionPrimingView()
+        .environment(HealthKitManager())
 }
