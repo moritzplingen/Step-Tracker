@@ -29,7 +29,7 @@ You can also add new step or weight data to Apple Health from this app. Your dat
                 .foregroundStyle(.secondary)
             Spacer()
             Button(action: {
-                
+                // To be implemented!
             }, label: {
                 Text("Sync Data to Apple Health")
                     .padding(.horizontal,10)
