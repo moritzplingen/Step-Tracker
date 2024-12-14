@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 
 struct HealthkitPermissionPrimingView: View {
     
@@ -20,16 +21,22 @@ You can also add new step or weight data to Apple Health from this app. Your dat
             Image(.healthKit)
                 .resizable()
                 .frame(width: 100, height: 100)
-                .shadow(radius: 10)
+                .shadow(radius: 2)
                 .padding()
             Text("Apple Health Integration")
                 .font(.title2).bold().padding()
             Text(description)
                 .foregroundStyle(.secondary)
             Spacer()
-            Button("Connect Apple Health"){
-                // HealthKit integration code to be done
-            }
+            Button(action: {
+                
+            }, label: {
+                Text("Sync Data to Apple Health")
+                    .padding(.horizontal,10)
+                    .padding(.vertical,5)
+            })
+            .buttonStyle(.borderedProminent).buttonBorderShape(.capsule).tint(.pink)
+            .padding(.bottom)
         }.padding(.horizontal,30)
     }
 }
