@@ -50,6 +50,7 @@ struct HealthKitPermissionPrimingView: View {
             .padding(.bottom)
         }
         .padding(.horizontal, 30)
+        .interactiveDismissDisabled()
         .onAppear {
             hasSeen = true
         }
