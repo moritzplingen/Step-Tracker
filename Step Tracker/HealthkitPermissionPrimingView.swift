@@ -5,22 +5,23 @@
 //  Created by Moritz Plingen on 11.12.24.
 //
 
-import SwiftUI
 import Charts
 import HealthKitUI
+import SwiftUI
 
-struct HealthkitPermissionPrimingView: View {
-    
+struct HealthKitPermissionPrimingView: View {
+
     @Environment(HealthKitManager.self) private var hkManager
     @Environment(\.dismiss) private var dismiss
     @State private var showHealthKitPermissionAlert: Bool = false
-    
-    private var description: String = """
-    This app displays your step and weight data in interactive charts. 
+    @Binding var hasSeen: Bool
 
-    You can also add new step or weight data to Apple Health from this app. Your data is private and secured.
-    """
-    
+    var description: String = """
+        This app displays your step and weight data in interactive charts. 
+
+        You can also add new step or weight data to Apple Health from this app. Your data is private and secured.
+        """
+
     var body: some View {
         VStack {
             Image(.healthKit)
@@ -33,35 +34,44 @@ struct HealthkitPermissionPrimingView: View {
             Text(description)
                 .foregroundStyle(.secondary)
             Spacer()
-            Button(action: {
-                showHealthKitPermissionAlert = true
-            }, label: {
-                Text("Sync Data to Apple Health")
-                    .padding(.horizontal,10)
-                    .padding(.vertical,5)
-            })
-            .buttonStyle(.borderedProminent).buttonBorderShape(.capsule).tint(.pink)
+            Button(
+                action: {
+                    showHealthKitPermissionAlert = true
+                },
+                label: {
+                    Text("Sync Data to Apple Health")
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                }
+            )
+            .buttonStyle(.borderedProminent).buttonBorderShape(.capsule).tint(
+                .pink
+            )
             .padding(.bottom)
         }
-        .padding(.horizontal,30)
-        .healthDataAccessRequest(store: hkManager.store,
-                                 shareTypes: hkManager.types,
-                                 readTypes: hkManager.types,
-                                 trigger: showHealthKitPermissionAlert) { result in
+        .padding(.horizontal, 30)
+        .onAppear {
+            hasSeen = true
+        }
+        .onAppear { hasSeen = true }
+        .healthDataAccessRequest(
+            store: hkManager.store,
+            shareTypes: hkManager.types,
+            readTypes: hkManager.types,
+            trigger: showHealthKitPermissionAlert
+        ) { result in
             switch result {
-            case .success:
+            case .success(_):
                 dismiss()
-            case .failure:
-                // Handle failure later
+            case .failure(_):
+                // handle the error later
                 dismiss()
-            }
-            
             }
         }
     }
-
+}
 
 #Preview {
-    HealthkitPermissionPrimingView()
+    HealthKitPermissionPrimingView(hasSeen: .constant(true))
         .environment(HealthKitManager())
 }

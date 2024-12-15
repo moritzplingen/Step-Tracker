@@ -2,41 +2,43 @@
 //  HealthDataListView.swift
 //  Step Tracker
 //
-//  Created by Moritz Plingen on 10.12.24.
+//  Created by Sean Allen on 4/17/24.
 //
 
 import SwiftUI
 
 struct HealthDataListView: View {
-    var metric: HealthMetricContext
-    @State private var isShowingAddData: Bool = false
+
+    @State private var isShowingAddData = false
     @State private var addDataDate: Date = .now
-    @State private var valueToAdd : String = ""
-    
+    @State private var valueToAdd: String = ""
+
+    var metric: HealthMetricContext
+
     var body: some View {
         List(0..<28) { i in
-            HStack{
-                Text(Date(), format: .dateTime.year().month().day())
+            HStack {
+                Text(Date(), format: .dateTime.month().day().year())
                 Spacer()
-                Text(1000, format: .number)
+                Text(10000, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
             }
         }
         .navigationTitle(metric.title)
         .sheet(isPresented: $isShowingAddData) {
             addDataView
         }
-        .toolbar{
+        .toolbar {
             Button("Add Data", systemImage: "plus") {
                 isShowingAddData = true
             }
         }
     }
-    
+
     var addDataView: some View {
-        NavigationStack{
+        NavigationStack {
             Form {
                 DatePicker("Date", selection: $addDataDate, displayedComponents: .date)
-                HStack{
+                HStack {
                     Text(metric.title)
                     Spacer()
                     TextField("Value", text: $valueToAdd)
@@ -46,26 +48,25 @@ struct HealthDataListView: View {
                 }
             }
             .navigationTitle(metric.title)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar{
+            .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Add Data"){
+                    Button("Add Data") {
                         // Do code later
                     }
                 }
+
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Dismiss"){
+                    Button("Dismiss") {
                         isShowingAddData = false
                     }
                 }
             }
         }
     }
-    
 }
 
 #Preview {
-    NavigationStack{
+    NavigationStack {
         HealthDataListView(metric: .weight)
     }
 }
